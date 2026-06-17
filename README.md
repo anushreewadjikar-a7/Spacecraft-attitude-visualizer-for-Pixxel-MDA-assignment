@@ -1,1 +1,0 @@
-# Spacecraft-attitude-visualizer-for-Pixxel-MDA-assignment
