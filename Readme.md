@@ -70,22 +70,19 @@ These quaternions describe the spacecraft attitude at each telemetry epoch.
 
 ### Orbital Data
 
-TLE files are propagated using the SGP4 orbital model to obtain the spacecraft position and velocity vectors at each telemetry timestamp.
-
-The position and velocity vectors are used to construct the LVLH frame.
+TLE files are propagated using the SGP4 orbital model to obtain the spacecraft position and velocity vectors at each telemetry timestamp. This propagation is currently used to validate the TLE epoch against the telemetry timestamps and is retained as a hook for future extensions (e.g. ground-track or eclipse overlays). It is not used in the attitude rotation itself -- see below.
 
 ### Attitude Visualization
 
+The telemetry quaternion is taken to already express the spacecraft body attitude relative to the LVLH frame (a common convention for ADCS telemetry built around local pointing). The LVLH frame is therefore represented in the visualization by the fixed unit axes X, Y, Z, and the quaternion is applied directly to them to obtain the moving body axes:
+
 For each telemetry timestamp:
 
-1. The spacecraft position and velocity are propagated from the TLE.
-2. The LVLH frame is constructed.
-3. The telemetry quaternion is converted into a rotation.
-4. The LVLH axes are rotated using the quaternion.
-5. The rotated body frame is displayed alongside the fixed LVLH frame.
+1. The telemetry quaternion is converted into a rotation.
+2. The fixed LVLH unit axes (X, Y, Z) are rotated by that quaternion to produce the body axes (X', Y', Z').
+3. The rotated body frame is displayed alongside the fixed LVLH frame.
 
-This allows the user to visualize how the spacecraft orientation evolves over time.
-
+A zero-rotation (identity) quaternion therefore correctly shows the body frame perfectly aligned with the LVLH reference axes in the plot.
 ---
 
 ## Prediction Method
